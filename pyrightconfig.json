@@ -1,0 +1,15 @@
+{
+  "pythonVersion": "3.10",
+  "pythonPlatform": "Windows",
+  "venvPath": ".",
+  "venv": ".venv",
+  "pythonInterpreterPath": "C:/Users/anshu/AppData/Local/Programs/Python/Python310/python.exe",
+  "include": [
+    "FreelanceOS/freelanceos/backend",
+    "freelanceos/freelanceos/backend"
+  ],
+  "extraPaths": [
+    "FreelanceOS/freelanceos/backend",
+    "freelanceos/freelanceos/backend"
+  ]
+}

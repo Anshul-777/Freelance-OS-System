@@ -496,4 +496,9 @@ If you build it this way, the automation page becomes one of the strongest parts
 
 Mainly, You are to ensure that all page loads, properly and immediately , The current Dashboard and Analytics page is not loading properly, and shoing blank white pge, the Top bar and side bar is shwoing but the page is not. 
 so Solve this issue and make plans to improvement as listed in plan.md , 
-and it must work as said in Instructions.md.@contextScopeItemMention @contextScopeItemMention , read whole and make precise changes as said, without breaking, dummy or fake or undergrading the system as explained in instrcutions and all must work as said in plan. 
+and it must work as said in Instructions.md. read whole and make precise changes as said, without breaking, dummy or fake or undergrading the system as explained in instrcutions and all must work as said in plan. and ensure no problems exist...
+and run as whole. 
+@contextScopeItemMention @contextScopeItemMention ,    
+ensure proper suprabase update, dont yet add the workflow and make the necessary changes asked. ask me for any credentials when needed.       
+before all, you are to solve that blank page issue. then begin with the plan. 
+
