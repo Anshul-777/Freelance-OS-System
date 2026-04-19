@@ -28,10 +28,13 @@ class Settings(BaseSettings):
         "FRONTEND_URL",
         "https://freelance-os-system-w8mv.vercel.app"
     )
+<<<<<<< HEAD
     BACKEND_URL: str = os.getenv(
         "BACKEND_URL",
         "https://freelance-os-system-1.onrender.com"
     )
+=======
+>>>>>>> a5d39ccc51174e1612f0cca3a17e0c4522f4ddd3
     ALLOWED_ORIGINS: list = [
         "http://localhost:5173",
         "http://localhost:3000",
@@ -39,6 +42,10 @@ class Settings(BaseSettings):
         "http://127.0.0.1:3000",
         "https://freelance-os-system-w8mv.vercel.app",
         "https://freelance-os-system-1.onrender.com",
+<<<<<<< HEAD
+=======
+        "https://*.vercel.app",
+>>>>>>> a5d39ccc51174e1612f0cca3a17e0c4522f4ddd3
     ]
 
     # Demo user
