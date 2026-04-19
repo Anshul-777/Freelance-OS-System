@@ -21,7 +21,7 @@
       "editor.defaultFormatter": "ms-python.python",
       "editor.tabSize": 4
     },
-    "python.defaultInterpreterPath": "${workspaceFolder:Backend (FastAPI)}/venv/bin/python",
+    "python.defaultInterpreterPath": "C:\\Users\\anshu\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
     "python.terminal.activateEnvironment": true,
     "typescript.preferences.importModuleSpecifier": "relative",
     "emmet.includeLanguages": { "javascript": "javascriptreact" },
