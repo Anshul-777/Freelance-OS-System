@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Plus, Search, Download, Send, CheckCircle, Pencil, Trash2, Loader2, Eye, DollarSign, Filter, TrendingUp, Clock, AlertCircle } from 'lucide-react'
 import { invoicesApi, clientsApi, projectsApi } from '../api'
@@ -24,6 +24,7 @@ type InvoiceForm = {
   currency: string
   notes: string
   payment_terms: number
+  invoice_number: string
   items: InvoiceItem[]
 }
 
@@ -41,6 +42,7 @@ const createInitialForm = (): InvoiceForm => {
     currency: 'USD',
     notes: '',
     payment_terms: 30,
+    invoice_number: '',
     items: [{ description: '', quantity: 1, unit_price: 0 }],
   }
 }
@@ -139,6 +141,7 @@ export default function InvoicesPage() {
       currency: invoice.currency || 'USD',
       notes: invoice.notes || '',
       payment_terms: invoice.payment_terms || 30,
+      invoice_number: invoice.invoice_number || '',
       items: invoice.items?.length > 0
         ? invoice.items.map((item: any) => ({ description: item.description, quantity: item.quantity, unit_price: item.unit_price }))
         : [{ description: '', quantity: 1, unit_price: 0 }],
@@ -644,6 +647,19 @@ export default function InvoicesPage() {
                 <span className="font-bold text-gray-900">Total</span>
                 <span className="text-xl font-bold text-brand-600">{formatCurrency(totalCalc)}</span>
               </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4">
+            <div>
+              <label className="label">Invoice Number (Optional - auto-generated if empty)</label>
+              <input
+                type="text"
+                value={form.invoice_number}
+                onChange={(event) => setForm({ ...form, invoice_number: event.target.value })}
+                placeholder="e.g. INV-001"
+                className="input font-mono"
+              />
             </div>
           </div>
 
