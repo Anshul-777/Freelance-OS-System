@@ -1,24 +1,33 @@
 from pydantic_settings import BaseSettings
 from typing import Optional
-import secrets
+import os
 
 
 class Settings(BaseSettings):
     # App
     APP_NAME: str = "FreelanceOS"
     APP_VERSION: str = "1.0.0"
-    DEBUG: bool = True
+    DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
 
-    # Database
-    DATABASE_URL: str = "postgresql://postgres:Anshul@localhost:5432/freelanceos"
+    # Database - Load from .env, fallback to localhost
+    DATABASE_URL: str = os.getenv(
+        "DATABASE_URL",
+        "postgresql://postgres:Anshul@localhost:5432/freelanceos"
+    )
 
     # JWT
-    SECRET_KEY: str = "freelanceos-super-secret-key-change-in-production-2024"
+    SECRET_KEY: str = os.getenv(
+        "SECRET_KEY",
+        "freelanceos-super-secret-key-change-in-production-2024"
+    )
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 43200  # 30 days in minutes
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 43200
 
-    # CORS
-    FRONTEND_URL: str = "https://freelance-os-system-w8mv.vercel.app"
+    # CORS - Dynamic frontend URL
+    FRONTEND_URL: str = os.getenv(
+        "FRONTEND_URL",
+        "https://freelance-os-system-w8mv.vercel.app"
+    )
     ALLOWED_ORIGINS: list = [
         "http://localhost:5173",
         "http://localhost:3000",
@@ -26,6 +35,7 @@ class Settings(BaseSettings):
         "http://127.0.0.1:3000",
         "https://freelance-os-system-w8mv.vercel.app",
         "https://freelance-os-system-1.onrender.com",
+        "https://*.vercel.app",
     ]
 
     # Demo user
@@ -37,11 +47,11 @@ class Settings(BaseSettings):
     DEMO_CURRENCY: str = "USD"
 
     DEFAULT_FROM_EMAIL: str = "onboarding@resend.dev"
-    RESEND_API_KEY: Optional[str] = None
+    RESEND_API_KEY: Optional[str] = os.getenv("RESEND_API_KEY")
 
     # Supabase (Storage)
-    SUPABASE_URL: Optional[str] = None
-    SUPABASE_KEY: Optional[str] = None
+    SUPABASE_URL: Optional[str] = os.getenv("SUPABASE_URL")
+    SUPABASE_KEY: Optional[str] = os.getenv("SUPABASE_KEY")
 
     # Workspace
     DEFAULT_WORKSPACE_NAME: str = "My Freelance Workspace"
@@ -49,7 +59,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = True
+        case_sensitive = True
 
 
 settings = Settings()
-
