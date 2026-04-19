@@ -5,6 +5,8 @@ interface User {
   id: number
   email: string
   full_name: string
+  first_name?: string
+  last_name?: string
   company_name?: string
   currency: string
   hourly_rate: number
@@ -12,8 +14,10 @@ interface User {
   phone?: string
   address?: string
   city?: string
+  location?: string
   country?: string
   bio?: string
+  job_title?: string
   website?: string
   tax_number?: string
   invoice_prefix?: string

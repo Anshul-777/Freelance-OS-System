@@ -29,29 +29,15 @@ export default function RegisterPage() {
   ]
 
   // Password validation rules
-  const validatePassword = (pwd: string) => {
-    const checks = {
-      length: pwd.length >= 8,
-      uppercase: /[A-Z]/.test(pwd),
-      lowercase: /[a-z]/.test(pwd),
-      number: /\d/.test(pwd),
-      special: /[!@#$%^&*(),.?":{}|<>]/.test(pwd),
-    }
-    return checks
-  }
+  const MIN_PASSWORD_LENGTH = 8
+  const MAX_PASSWORD_LENGTH = 128
+
+  const isPasswordValid = (pwd: string) => pwd.length >= MIN_PASSWORD_LENGTH
 
   const getPasswordStrength = (pwd: string) => {
-    const checks = validatePassword(pwd)
-    const passed = Object.values(checks).filter(Boolean).length
-    if (passed <= 2) return { strength: 'weak', color: 'bg-red-500' }
-    if (passed <= 3) return { strength: 'fair', color: 'bg-amber-500' }
-    if (passed <= 4) return { strength: 'good', color: 'bg-blue-500' }
+    if (pwd.length < MIN_PASSWORD_LENGTH) return { strength: 'weak', color: 'bg-red-500' }
+    if (pwd.length < 12) return { strength: 'good', color: 'bg-blue-500' }
     return { strength: 'strong', color: 'bg-emerald-500' }
-  }
-
-  const isPasswordValid = (pwd: string) => {
-    const checks = validatePassword(pwd)
-    return Object.values(checks).every(Boolean)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -74,12 +60,12 @@ export default function RegisterPage() {
       toast.error('Please enter a valid email address')
       return
     }
-    if (formData.password.length < 8) {
-      toast.error('Password must be at least 8 characters long')
+    if (formData.password.length < MIN_PASSWORD_LENGTH) {
+      toast.error(`Password must be at least ${MIN_PASSWORD_LENGTH} characters long`)
       return
     }
-    if (!isPasswordValid(formData.password)) {
-      toast.error('Password must contain uppercase, lowercase, numbers, and special characters')
+    if (formData.password.length > MAX_PASSWORD_LENGTH) {
+      toast.error(`Password must be no more than ${MAX_PASSWORD_LENGTH} characters long`)
       return
     }
 
@@ -217,6 +203,7 @@ export default function RegisterPage() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  maxLength={MAX_PASSWORD_LENGTH}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-11 pr-11 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none"
                   placeholder="Enter your password"
                   required
@@ -256,11 +243,8 @@ export default function RegisterPage() {
                   {/* Requirements Checklist */}
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     {[
-                      { label: '8+ characters', check: validatePassword(formData.password).length },
-                      { label: 'Uppercase (A-Z)', check: validatePassword(formData.password).uppercase },
-                      { label: 'Lowercase (a-z)', check: validatePassword(formData.password).lowercase },
-                      { label: 'Number (0-9)', check: validatePassword(formData.password).number },
-                      { label: 'Special char (!@#...)', check: validatePassword(formData.password).special },
+                      { label: `${MIN_PASSWORD_LENGTH}+ characters`, check: formData.password.length >= MIN_PASSWORD_LENGTH },
+                      { label: 'Any letters, numbers, or symbols', check: formData.password.length >= MIN_PASSWORD_LENGTH },
                     ].map((req, i) => (
                       <div key={i} className={`flex items-center gap-1.5 font-medium ${req.check ? 'text-emerald-600' : 'text-slate-400'}`}>
                         {req.check ? (

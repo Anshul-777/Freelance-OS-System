@@ -75,42 +75,53 @@ export function EmptyState({ icon, title, description, action }: EmptyStateProps
 // ─── Confirm Dialog ─────────────────────────────────────────────────────────
 interface ConfirmDialogProps {
   open: boolean
-  onClose: () => void
+  onClose?: () => void
+  onCancel?: () => void
   onConfirm: () => void
   title: string
-  message: string
+  message?: string
+  description?: string
   confirmLabel?: string
+  confirmText?: string
+  confirmVariant?: string
   danger?: boolean
   loading?: boolean
+  isLoading?: boolean
 }
 export function ConfirmDialog({
-  open, onClose, onConfirm, title, message,
-  confirmLabel = 'Confirm', danger = false, loading = false,
+  open, onClose, onCancel, onConfirm, title, message,
+  description, confirmLabel = 'Confirm', confirmText, confirmVariant,
+  danger = false, loading = false, isLoading = false,
 }: ConfirmDialogProps) {
+  const closeDialog = onClose || onCancel || (() => {})
+  const resolvedConfirmLabel = confirmText || confirmLabel
+  const resolvedDanger = danger || confirmVariant === 'danger' || confirmVariant === 'destructive'
+  const resolvedLoading = loading || isLoading
+
   if (!open) return null
   return (
-    <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+    <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && closeDialog()}>
       <div className="modal-content max-w-sm">
         <div className="modal-body pt-6">
           <div className={classNames(
             'w-12 h-12 rounded-2xl flex items-center justify-center mb-4',
-            danger ? 'bg-red-50' : 'bg-amber-50'
+            resolvedDanger ? 'bg-red-50' : 'bg-amber-50'
           )}>
-            <AlertTriangle size={22} className={danger ? 'text-red-500' : 'text-amber-500'} />
+            <AlertTriangle size={22} className={resolvedDanger ? 'text-red-500' : 'text-amber-500'} />
           </div>
           <h3 className="text-base font-bold text-slate-900 mb-2 font-display">{title}</h3>
-          <p className="text-sm text-slate-600">{message}</p>
+          <p className="text-sm text-slate-600">{message || description}</p>
         </div>
         <div className="modal-footer">
-          <button onClick={onClose} className="btn-secondary" disabled={loading}>
+          <button onClick={closeDialog} className="btn-secondary" disabled={resolvedLoading}>
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            disabled={loading}
-            className={danger ? 'btn-danger' : 'btn-primary'}>
-            {loading && <Loader2 size={14} className="animate-spin" />}
-            {confirmLabel}
+            disabled={resolvedLoading}
+            className={resolvedDanger ? 'btn-danger' : 'btn-primary'}>
+            {resolvedLoading && <Loader2 size={14} className="animate-spin" />}
+            {resolvedConfirmLabel}
           </button>
         </div>
       </div>
