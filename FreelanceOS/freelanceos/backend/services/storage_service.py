@@ -32,10 +32,10 @@ class SupabaseStorageProvider(StorageProvider):
     def __init__(self):
         if not settings.SUPABASE_URL or not settings.SUPABASE_KEY:
             raise ValueError("SUPABASE_URL and SUPABASE_KEY must be set for SupabaseStorageProvider")
-if HAS_SUPABASE:
-    self.client: Client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
-else:
-    raise ValueError("Supabase not available - install supabase package or set DEBUG=true")
+        if HAS_SUPABASE:
+            self.client: Client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+        else:
+            raise ValueError("Supabase not available - install supabase package or set DEBUG=true")
         self.bucket = "freelanceos-receipts"
 
     async def upload_file(self, file_data: BinaryIO, file_path: str, content_type: str) -> str:
