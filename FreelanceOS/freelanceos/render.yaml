@@ -11,4 +11,18 @@ services:
       - key: PYTHON_VERSION
         value: 3.12.2
       - key: DATABASE_URL
-        value: sqlite:///./freelanceos.db
+        value: postgresql://postgres:Anshul-777@db.zxsloquwsmicadpanclo.supabase.co:5432/postgres?sslmode=require
+      - key: FRONTEND_URL
+        value: https://freelance-os-system-w8mv.vercel.app
+      - key: BACKEND_URL
+        value: https://freelance-os-system-1.onrender.com
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "false"
+      - key: RESEND_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false

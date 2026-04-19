@@ -20,9 +20,11 @@
 - [ ] Build: pip install -r requirements.txt
 - [ ] Start: uvicorn main:app --host 0.0.0.0 --port $PORT
 
-### 6. Post-Deploy
-- [ ] Run Alembic migrations: Render shell → alembic upgrade head
-- [ ] Update Vercel VITE_API_URL=https://<backend>.onrender.com/api
-- [ ] Test full stack
 
-**Progress: Code changes complete. Ready for manual deployment steps 4-6.**
+### 6. Post-Deploy ✅
+- [x] Tables auto-created on startup (main.py lifespan update)
+- [x] Update Vercel VITE_API_URL=https://freelance-os-system-1.onrender.com/api
+- [x] Test full stack - LIVE!
+
+**Progress: Backend deployed + tables auto-created. Frontend connect Vercel env → Production complete!**
+

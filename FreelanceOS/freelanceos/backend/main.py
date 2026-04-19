@@ -21,20 +21,29 @@ from jobs.expense_jobs import generate_scheduled_expenses
 async def lifespan(app: FastAPI):
     # Initialize Scheduler
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(generate_scheduled_expenses, 'cron', hour=1, minute=0) # Run at 1 AM daily
+    scheduler.add_job(generate_scheduled_expenses, 'cron', hour=1, minute=0)
     scheduler.start()
     app.state.scheduler = scheduler
-    print("Background scheduler started")
+    print("✓ Background scheduler started")
 
-    # Seed demo data if in DEBUG mode
+    # Only create tables and seed data in DEBUG mode
     if settings.DEBUG:
-        create_tables()
-        db = SessionLocal()
         try:
-            from seed_data import seed_database
-            seed_database(db)
-        finally:
-            db.close()
+            create_tables()
+            print("✓ Database tables created/verified")
+            
+            db = SessionLocal()
+            try:
+                from seed_data import seed_database
+                seed_database(db)
+                print("✓ Demo data seeded")
+            finally:
+                db.close()
+        except Exception as e:
+            print(f"⚠ Startup warning: {e}")
+    else:
+        print("✓ Production mode - skipping table creation and seeding")
+
     yield
     print("Shutting down FreelanceOS API")
 
@@ -84,16 +93,17 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
 
 # ─── Routers ─────────────────────────────────────────────────────────────────
-app.include_router(auth_router.router)
-app.include_router(dashboard.router)
-app.include_router(projects.router)
-app.include_router(clients.router)
-app.include_router(time_entries.router)
-app.include_router(invoices.router)
-app.include_router(expenses.router)
-app.include_router(analytics.router)
-app.include_router(recurring_expenses.router)
-app.include_router(notifications.router)
+# Include all routers with /api prefix
+app.include_router(auth_router.router, prefix="/api")
+app.include_router(dashboard.router, prefix="/api")
+app.include_router(projects.router, prefix="/api")
+app.include_router(clients.router, prefix="/api")
+app.include_router(time_entries.router, prefix="/api")
+app.include_router(invoices.router, prefix="/api")
+app.include_router(expenses.router, prefix="/api")
+app.include_router(analytics.router, prefix="/api")
+app.include_router(recurring_expenses.router, prefix="/api")
+app.include_router(notifications.router, prefix="/api")
 
 # ─── Root & Health ────────────────────────────────────────────────────────────
 @app.get("/", tags=["Health"])

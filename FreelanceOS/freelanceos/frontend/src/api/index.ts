@@ -1,6 +1,12 @@
 import axios from 'axios'
 
-const BASE_URL = import.meta.env.VITE_API_URL || '/api'
+// Use environment variable or default to backend URL
+// Development: uses local proxy via Vite (/api goes to localhost:8000)
+// Production: uses Render backend URL
+const BASE_URL = import.meta.env.VITE_API_URL || 
+                 (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+                   ? 'https://freelance-os-system-1.onrender.com/api'
+                   : '/api')
 
 export const api = axios.create({
   baseURL: BASE_URL,
