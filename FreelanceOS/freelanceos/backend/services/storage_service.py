@@ -2,7 +2,11 @@ import os
 import shutil
 from abc import ABC, abstractmethod
 from typing import Optional, BinaryIO
-from supabase import create_client, Client
+try:
+    from supabase import create_client, Client
+    HAS_SUPABASE = True
+except ImportError:
+    HAS_SUPABASE = False
 from config import settings
 import logging
 
@@ -28,7 +32,10 @@ class SupabaseStorageProvider(StorageProvider):
     def __init__(self):
         if not settings.SUPABASE_URL or not settings.SUPABASE_KEY:
             raise ValueError("SUPABASE_URL and SUPABASE_KEY must be set for SupabaseStorageProvider")
-        self.client: Client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+if HAS_SUPABASE:
+    self.client: Client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+else:
+    raise ValueError("Supabase not available - install supabase package or set DEBUG=true")
         self.bucket = "freelanceos-receipts"
 
     async def upload_file(self, file_data: BinaryIO, file_path: str, content_type: str) -> str:
@@ -88,8 +95,8 @@ class LocalStorageProvider(StorageProvider):
         return False
 
 def get_storage_provider() -> StorageProvider:
-    if settings.DEBUG or not settings.SUPABASE_URL:
-        logger.info("Using LocalStorageProvider for dev/debug mode")
+    if settings.DEBUG or not settings.SUPABASE_URL or not HAS_SUPABASE:
+        logger.info("Using LocalStorageProvider (Supabase unavailable)")
         return LocalStorageProvider()
     return SupabaseStorageProvider()
 
