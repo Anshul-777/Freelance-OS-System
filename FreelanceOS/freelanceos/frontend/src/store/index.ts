@@ -20,6 +20,18 @@ interface User {
   invoice_notes?: string
   payment_terms?: number
   workspaces?: { id: number; name: string; slug: string }[]
+  email_weekly?: boolean
+  in_app_alerts?: boolean
+  daily_digest?: boolean
+  profile_public?: boolean
+  show_email?: boolean
+  show_location?: boolean
+  show_activity?: boolean
+  settings_template?: string
+  banner_url?: string
+  skills?: string
+  email_invoices?: boolean
+  email_expenses?: boolean
 }
 
 interface AuthState {

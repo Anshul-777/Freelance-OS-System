@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { authApi } from "../api"
 import { useAuthStore } from "../store"
 import { SectionHeader } from "../components/UI"
@@ -25,7 +25,7 @@ export default function ProfilePage() {
         website: user.website || "",
         company_name: user.company_name || "",
         job_title: user.job_title || "",
-        skills: user.skills ? (typeof user.skills === 'string' ? user.skills.split(',').map(s => s.trim()) : user.skills) : [],
+        skills: user.skills ? (typeof user.skills === 'string' ? user.skills.split(',').map((s: string) => s.trim()) : user.skills) : [],
       })
       setAvatarPreview(user.avatar_url)
     }
@@ -212,12 +212,12 @@ export default function ProfilePage() {
                 <p className="text-xs text-slate-500">Separate multiple skills with commas</p>
                 {Array.isArray(form.skills) && form.skills.length > 0 && (
                   <div className="flex flex-wrap gap-2 pt-2">
-                    {form.skills.map((skill, i) => (
+                    {form.skills.map((skill: string, i: number) => (
                       <div key={i} className="flex items-center gap-2 px-3 py-1 bg-brand-50 border border-brand-200 rounded-full text-sm font-medium text-brand-700">
                         {skill}
                         <button
                           type="button"
-                          onClick={() => setForm({...form, skills: form.skills.filter((_, idx) => idx !== i)})}
+                          onClick={() => setForm({...form, skills: form.skills.filter((_: string, idx: number) => idx !== i)})}
                           className="hover:text-brand-900 font-bold"
                         >
                           ✕
@@ -296,7 +296,7 @@ export default function ProfilePage() {
             <div className="card p-6">
               <h3 className="font-bold text-slate-900 mb-4">Skills & Expertise</h3>
               <div className="flex flex-wrap gap-2">
-                {form.skills.map((skill, i) => (
+                {form.skills.map((skill: string, i: number) => (
                   <span key={i} className="px-4 py-2 bg-brand-50 border border-brand-200 rounded-full text-sm font-semibold text-brand-700">
                     {skill}
                   </span>
