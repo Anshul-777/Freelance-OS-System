@@ -38,6 +38,7 @@ class Settings(BaseSettings):
         "http://127.0.0.1:5173",
         "http://127.0.0.1:3000",
         "https://freelance-os-system-w8mv.vercel.app",
+        "https://freelance-os-system-w8mv-fqpzkclkw-god-s-projects-04ef3be1.vercel.app",
         "https://freelance-os-system-1.onrender.com",
     ]
 
