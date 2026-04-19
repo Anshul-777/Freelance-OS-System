@@ -84,13 +84,20 @@ app.add_middleware(
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     traceback.print_exc()
-    return JSONResponse(
+    response = JSONResponse(
         status_code=500,
         content={
             "detail": f"{type(exc).__name__}: {exc}",
             "path":   str(request.url),
         },
     )
+    # Manually add CORS headers to ensure the frontend can read the error message
+    origin = request.headers.get("origin")
+    if origin in settings.ALLOWED_ORIGINS:
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+    
+    return response
 
 # ─── Routers ─────────────────────────────────────────────────────────────────
 # Include all routers with /api prefix
