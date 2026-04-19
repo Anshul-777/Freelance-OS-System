@@ -18,13 +18,14 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 43200  # 30 days in minutes
 
     # CORS
-    FRONTEND_URL: str = "http://localhost:5173"
+    FRONTEND_URL: str = "https://freelance-os-system.vercel.app"
     ALLOWED_ORIGINS: list = [
         "http://localhost:5173",
         "http://localhost:3000",
         "http://127.0.0.1:5173",
         "http://127.0.0.1:3000",
         "https://freelance-os-rust.vercel.app",
+        "https://freelance-os-system.vercel.app",
         "https://freelanceos-1.onrender.com",
     ]
 

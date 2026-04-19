@@ -192,7 +192,58 @@ DATABASE_URL: str = "postgresql+asyncpg://user:pass@localhost/freelanceos"
 - Add `workspace_id` to all models
 - Filter all queries by workspace
 
-### Deploying to Production
+### Production Deployment
+
+#### Backend (Render.com)
+1. Fork/Connect GitHub repo: https://github.com/Anshul-777/FreelanceOS
+2. Create **Web Service** on [Render.com](https://render.com)
+3. **Settings**:
+   - Branch: `main`
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+   - Runtime: Python 3.12 (from runtime.txt)
+4. **Environment Variables** (from .env.example):
+   - `DATABASE_URL`: Create free Postgres DB (Supabase/Neon/Render Postgres)
+   - `SECRET_KEY`: `openssl rand -hex 32`
+   - `FRONTEND_URL`: `https://freelance-os-system.vercel.app`
+   - `DEBUG`: `false`
+5. Deploy → Get URL: `https://your-app.onrender.com`
+
+**Post-deploy**:
+```bash
+# Render Shell: Run migrations
+pip install alembic
+alembic upgrade head
+```
+
+#### Frontend (Vercel - already deployed)
+1. Project Settings → Environment Variables
+2. Add: `VITE_API_URL=https://your-backend.onrender.com/api`
+3. Redeploy
+
+#### Database Setup
+1. Sign up [Supabase](https://supabase.com) (free tier)
+2. Create project → Get Connection String
+3. Paste into Render env `DATABASE_URL`
+4. Enable Row Level Security? No for simple auth (JWT handles)
+
+#### Connection
+- Frontend ←→ Backend API: ✅ `VITE_API_URL`
+- Backend ←→ Database: ✅ `DATABASE_URL`
+- CORS: ✅ Updated in config.py
+
+#### Vercel + Render Full Example
+```
+Frontend: https://freelance-os-system.vercel.app
+  ↓ VITE_API_URL
+Backend: https://freelanceos-abc123.onrender.com/api
+  ↓ DATABASE_URL  
+Postgres: postgresql://...supabase.co/freelanceos
+```
+
+---
+
+### Deploying to Production (Legacy)
 ```bash
 # Backend: Gunicorn + Uvicorn workers
 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
