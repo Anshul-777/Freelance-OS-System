@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     )
     BACKEND_URL: str = os.getenv(
         "BACKEND_URL",
-        "https://freelance-os-system-1.onrender.com"
+        "https://freelance-os-system.onrender.com"
     )
     ALLOWED_ORIGINS: list = [
         "http://localhost:5173",

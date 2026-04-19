@@ -15,7 +15,7 @@ services:
       - key: FRONTEND_URL
         value: https://freelance-os-system-w8mv.vercel.app
       - key: BACKEND_URL
-        value: https://freelance-os-system-1.onrender.com
+        value: https://freelance-os-system.onrender.com
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG
