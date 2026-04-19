@@ -84,16 +84,16 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
 
 # ─── Routers ─────────────────────────────────────────────────────────────────
-app.include_router(auth_router.router)
-app.include_router(dashboard.router)
-app.include_router(projects.router)
-app.include_router(clients.router)
-app.include_router(time_entries.router)
-app.include_router(invoices.router)
-app.include_router(expenses.router)
-app.include_router(analytics.router)
-app.include_router(recurring_expenses.router)
-app.include_router(notifications.router)
+app.include_router(auth_router.router, prefix="/api")
+app.include_router(dashboard.router, prefix="/api")
+app.include_router(projects.router, prefix="/api")
+app.include_router(clients.router, prefix="/api")
+app.include_router(time_entries.router, prefix="/api")
+app.include_router(invoices.router, prefix="/api")
+app.include_router(expenses.router, prefix="/api")
+app.include_router(analytics.router, prefix="/api")
+app.include_router(recurring_expenses.router, prefix="/api")
+app.include_router(notifications.router, prefix="/api")
 
 # ─── Root & Health ────────────────────────────────────────────────────────────
 @app.get("/", tags=["Health"])
