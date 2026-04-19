@@ -1,0 +1,23 @@
+
+# 1. Go to your project folder
+cd "PATH_TO_YOUR_FOLDER"
+
+# 2. Check git status
+git status
+
+# 3. If git is not initialized
+git init
+
+# 4. Make sure remote is correct
+git remote remove origin
+git remote add origin https://github.com/Anshul-777/Freelance-OS-System.git
+
+# 5. Add everything in current folder
+git add .
+
+# 6. Commit changes
+git commit -m "Replace repo with new full project"
+
+# 7. Push to main branch
+git branch -M main
+git push -u origin main
